@@ -1,3 +1,3 @@
 # MIE Project
 
-https://annatheg.github.io/MIEProjct
+https://annatheg.github.io/MIEProject
