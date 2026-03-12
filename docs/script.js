@@ -183,6 +183,10 @@ document.getElementById("guessBox").addEventListener("keypress", function(e){
 // =====================
 function submitRecall(){
 
+    // Immediately disable submit to prevent double submissions
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("submitBtn").style.opacity = "0.5";
+
     clearInterval(countupTimer);
 
     let time = Math.floor((Date.now() - startTime) / 1000);
@@ -200,7 +204,7 @@ function submitRecall(){
     document.getElementById("result").innerText =
         "Score: " + score + "/15   Time: " + time + " s";
 
-    // Review phase: show words again for (2.5 * score) seconds
+    // Review phase
     showWords();
     let reviewTime = Math.max(1, Math.round(2.5 * score));
     document.getElementById("instructions").innerText =
@@ -222,6 +226,11 @@ function submitRecall(){
 function nextTrial(){
     trial++;
     document.getElementById("proceedBtn").style.display = "none";
+
+    // Re-enable submit for the new trial
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("submitBtn").style.opacity = "1";
+
     startExperiment();
 }
 
