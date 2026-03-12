@@ -10,6 +10,10 @@ let responses = [];
 const trialText = document.getElementById("trialText");
 
 document.getElementById("startBtn").onclick = () => {
+
+    // hide start button after beginning
+    document.getElementById("startBtn").style.display = "none";
+
     nextTrial();
 };
 
