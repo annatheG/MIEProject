@@ -62,8 +62,10 @@ function finishTest(){
         body: JSON.stringify(submission)
     });
 
-    trialText.innerText = "Thank you for participating!";
+    trialText.innerText = "Thank you for participating! You're response has been recorded :)";
     
+      // hide all controls
     document.getElementById("submitBtn").style.display = "none";
     document.getElementById("responseBox").style.display = "none";
+    document.getElementById("startBtn").style.display = "none";
 }
