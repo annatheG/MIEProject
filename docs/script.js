@@ -201,23 +201,22 @@ function submitRecall(){
         guesses: currentGuesses
     });
 
+    // Hide typing controls and word lines
+    document.getElementById("lineRow").style.display = "none";
+    document.getElementById("guessBox").style.display = "none";
+    document.querySelector("#recallArea button").style.display = "none"; // Enter button
+    document.getElementById("submitBtn").style.display = "none";
+
+    // Show score and proceed button
     document.getElementById("result").innerText =
         "Score: " + score + "/15   Time: " + time + " s";
+    document.getElementById("instructions").innerText = "Trial " + trial + " complete";
 
-    // Review phase
-    showWords();
-    let reviewTime = Math.max(1, Math.round(2.5 * score));
-    document.getElementById("instructions").innerText =
-        "Review the words (" + reviewTime + "s)";
-
-    setTimeout(() => {
-        document.getElementById("wordRow").innerHTML = "";
-        if(trial < 3){
-            document.getElementById("proceedBtn").style.display = "inline-block";
-        } else {
-            submitAndShowSummary();
-        }
-    }, reviewTime * 1000);
+    if(trial < 3){
+        document.getElementById("proceedBtn").style.display = "inline-block";
+    } else {
+        submitAndShowSummary();
+    }
 }
 
 // =====================
@@ -227,7 +226,11 @@ function nextTrial(){
     trial++;
     document.getElementById("proceedBtn").style.display = "none";
 
-    // Re-enable submit for the new trial
+    // Restore all recall controls for the new trial
+    document.getElementById("lineRow").style.display = "block";
+    document.getElementById("guessBox").style.display = "inline-block";
+    document.querySelector("#recallArea button").style.display = "inline-block"; // Enter button
+    document.getElementById("submitBtn").style.display = "inline-block";
     document.getElementById("submitBtn").disabled = false;
     document.getElementById("submitBtn").style.opacity = "1";
 
