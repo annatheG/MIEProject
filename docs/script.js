@@ -24,7 +24,7 @@ let currentGuesses = [];
 // =====================
 let countdownTimer;
 let countupTimer;
-let timeLeft = 40;
+let timeLeft = 35;
 let recallTime = 0;
 let startTime;
 
@@ -54,7 +54,7 @@ function startExperiment(){
 
     showWords();
 
-    timeLeft = 40;
+    timeLeft = 35;
     document.getElementById("timer").innerText = timeLeft;
 
     clearInterval(countdownTimer);
