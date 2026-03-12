@@ -185,11 +185,14 @@ function enterGuess(){
 // =====================
 // ENTER KEY
 // =====================
-document.getElementById("guessBox").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        enterGuess();
-    }
-});
+const guessBox = document.getElementById("guessBox");
+if(guessBox){
+    guessBox.addEventListener("keypress", function(e){
+        if(e.key === "Enter"){
+            enterGuess();
+        }
+    });
+}
 
 // =====================
 // SUBMIT / END TRIAL
