@@ -42,8 +42,12 @@ button {
     font-size: 22px;
 }
 
+#phaseTitle {
+    margin-top: 20px;
+}
+
 #wordRow {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: 18px;
     white-space: nowrap;
 }
@@ -53,7 +57,7 @@ button {
 }
 
 #lineRow {
-    margin-top: 40px;
+    margin-top: 20px;
     white-space: nowrap;
     overflow-x: hidden;
 }
@@ -83,7 +87,7 @@ button {
     100% { transform: translateX(0); }
 }
 
-#proceedBtn, #startBtn {
+#proceedBtn, #startBtn, #memProceedBtn {
     margin-top: 10px;
 }
 
@@ -92,6 +96,16 @@ button {
 }
 
 #instructionsPage {
+    text-align: left;
+    max-width: 800px;
+    margin: auto;
+}
+
+#resultsScreen {
+    text-align: center;
+}
+
+#summaryScreen {
     text-align: left;
     max-width: 800px;
     margin: auto;

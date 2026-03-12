@@ -15,9 +15,9 @@ let placed = new Array(words.length).fill(false);
 let trial = 1;
 let trialTimes = [];
 let trialScores = [];
-let trialResponses = []; // stores per-trial guesses for submission
+let trialResponses = [];
 
-let currentGuesses = []; // guesses within the current trial
+let currentGuesses = [];
 
 // =====================
 // TIMERS
@@ -35,23 +35,27 @@ function startExperiment(){
 
     document.getElementById("instructionsPage").style.display = "none";
     document.getElementById("timer").style.display = "block";
-    document.getElementById("instructions").style.display = "block";
+    document.getElementById("memProceedBtn").style.display = "inline-block";
 
     placed.fill(false);
     currentGuesses = [];
 
     document.getElementById("recallArea").style.display = "none";
+    document.getElementById("resultsScreen").style.display = "none";
     document.getElementById("summaryScreen").style.display = "none";
-    document.getElementById("proceedBtn").style.display = "none";
     document.getElementById("result").innerText = "";
     document.getElementById("guessBox").value = "";
-    recallTime = 0;
+
+    // Re-enable submit in case it was disabled from previous trial
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("submitBtn").style.opacity = "1";
+
+    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Memorize the words";
 
     showWords();
 
     timeLeft = 40;
     document.getElementById("timer").innerText = timeLeft;
-    document.getElementById("instructions").innerText = "Memorize the words";
 
     clearInterval(countdownTimer);
     clearInterval(countupTimer);
@@ -89,9 +93,11 @@ function countdown(){
 // =====================
 function startRecall(){
 
+    clearInterval(countdownTimer);
+    document.getElementById("memProceedBtn").style.display = "none";
     document.getElementById("wordRow").innerHTML = "";
     document.getElementById("recallArea").style.display = "block";
-    document.getElementById("instructions").innerText = "Recall the words";
+    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Recall the words";
 
     makeLines();
 
@@ -145,28 +151,35 @@ function enterGuess(){
     let guess = box.value.trim().toLowerCase();
     if(!guess) return;
 
-    let correct = false;
+    let matchedIndex = -1;
 
     for(let i = 0; i < words.length; i++){
-        if(guess === words[i] && !placed[i]){
-            let line = document.getElementById("line" + i);
-            line.innerText = words[i];
-            line.style.color = "green";
-            setTimeout(() => { line.style.color = "black"; }, 500);
+        if(guess === words[i]){
+            matchedIndex = i;
             placed[i] = true;
-            correct = true;
+            break;
         }
     }
 
-    currentGuesses.push({ word: guess, correct: correct });
-
-    if(!correct){
+    if(matchedIndex >= 0){
+        let line = document.getElementById("line" + matchedIndex);
+        line.innerText = words[matchedIndex];
+        line.style.color = "green";
+        setTimeout(() => { line.style.color = "black"; }, 500);
+        currentGuesses.push({ word: guess, correct: true });
+    } else {
         box.classList.add("shake");
         setTimeout(() => { box.classList.remove("shake"); }, 200);
+        currentGuesses.push({ word: guess, correct: false });
     }
 
     box.value = "";
     box.focus();
+
+    // Auto-submit if all words placed
+    if(placed.every(p => p)){
+        submitRecall();
+    }
 }
 
 // =====================
@@ -183,7 +196,7 @@ document.getElementById("guessBox").addEventListener("keypress", function(e){
 // =====================
 function submitRecall(){
 
-    // Immediately disable submit to prevent double submissions
+    // Prevent double submissions
     document.getElementById("submitBtn").disabled = true;
     document.getElementById("submitBtn").style.opacity = "0.5";
 
@@ -201,21 +214,19 @@ function submitRecall(){
         guesses: currentGuesses
     });
 
-    // Hide typing controls and word lines
-    document.getElementById("lineRow").style.display = "none";
-    document.getElementById("guessBox").style.display = "none";
-    document.querySelector("#recallArea button").style.display = "none"; // Enter button
-    document.getElementById("submitBtn").style.display = "none";
+    // Hide recall area, show results screen
+    document.getElementById("recallArea").style.display = "none";
+    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Results";
+    document.getElementById("resultsScreen").style.display = "block";
 
-    // Show score and proceed button
-    document.getElementById("result").innerText =
-        "Score: " + score + "/15   Time: " + time + " s";
-    document.getElementById("instructions").innerText = "Trial " + trial + " complete";
+    document.getElementById("scoreText").innerText = "Score: " + score + "/15";
+    document.getElementById("timeText").innerText = "Time: " + time + " s";
 
-    if(trial < 3){
-        document.getElementById("proceedBtn").style.display = "inline-block";
+    // Change button label on final trial
+    if(trial >= 3){
+        document.getElementById("proceedBtn").innerText = "See Summary";
     } else {
-        submitAndShowSummary();
+        document.getElementById("proceedBtn").innerText = "Proceed to Next Trial";
     }
 }
 
@@ -223,18 +234,13 @@ function submitRecall(){
 // NEXT TRIAL
 // =====================
 function nextTrial(){
+    document.getElementById("resultsScreen").style.display = "none";
     trial++;
-    document.getElementById("proceedBtn").style.display = "none";
-
-    // Restore all recall controls for the new trial
-    document.getElementById("lineRow").style.display = "block";
-    document.getElementById("guessBox").style.display = "inline-block";
-    document.querySelector("#recallArea button").style.display = "inline-block"; // Enter button
-    document.getElementById("submitBtn").style.display = "inline-block";
-    document.getElementById("submitBtn").disabled = false;
-    document.getElementById("submitBtn").style.opacity = "1";
-
-    startExperiment();
+    if(trial <= 3){
+        startExperiment();
+    } else {
+        submitAndShowSummary();
+    }
 }
 
 // =====================
@@ -273,14 +279,13 @@ function submitAndShowSummary(){
 // SHOW SUMMARY
 // =====================
 function showSummary(){
-    document.getElementById("recallArea").style.display = "none";
-    document.getElementById("instructions").style.display = "none";
-    document.getElementById("summaryScreen").style.display = "block";
+    document.getElementById("phaseTitle").innerText = "";
     document.getElementById("timer").style.display = "none";
+    document.getElementById("summaryScreen").style.display = "block";
 
     let tbody = document.getElementById("summaryTable");
     tbody.innerHTML = "";
-    for(let i = 0; i < 3; i++){
+    for(let i = 0; i < trialScores.length; i++){
         let row = `<tr><td>${i+1}</td><td>${trialScores[i]}/15</td><td>${trialTimes[i]}</td></tr>`;
         tbody.innerHTML += row;
     }

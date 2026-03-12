@@ -14,14 +14,6 @@
 
     <h3>Overview</h3>
     <p>In this study, you will be asked to memorize a list of words and then recall them from memory.</p>
-    <p>This experiment consists of three trials, each containing three phases:
-    <ul>
-        <li>Memorization phase</li>
-        <li>Recall phase</li>
-        <li>Review phase</li>
-    </ul>
-    Your performance is based on how quickly you can recall as many words as possible and the number of words you recall correctly.
-    </p>
 
     <h3>General Guidelines</h3>
     <ul>
@@ -33,26 +25,25 @@
 
     <h3>Trial Procedure</h3>
     <h4>Memorization Phase</h4>
-    <p>Once you click "Proceed", a list of 15 randomly generated words will appear on the screen. You will have 40 seconds to study and memorize the list. After 40 seconds, the list will automatically disappear, and you will be taken to the recall phase.</p>
+    <p>Once you click "Proceed", a list of 15 randomly generated words will appear on the screen. You will have 40 seconds to study and memorize the list. After 40 seconds, the list will automatically disappear, and you will be taken to the recall phase. You may also click "Proceed to Recall" to move on earlier.</p>
 
     <h4>Recall Phase</h4>
-    <p>Type as many words as you can remember. Submit words by pressing "Enter". A timer will start at the beginning of the recall phase. Correct entries appear in their original positions. Incorrect words will not appear.</p>
-
-    <h4>Review Phase</h4>
-    <p>After submitting your responses, the original word list will reappear for review. Review time is 2.5 seconds multiplied by the number of correct words. After the review phase, the next trial will begin automatically (3 trials total).</p>
+    <p>Type as many words as you can remember. Submit words by pressing "Enter". Correct entries appear in their original positions. Incorrect words will not appear. Once all words are correctly recalled, your answers will be submitted automatically.</p>
 
     <button id="startBtn" onclick="startExperiment()">Proceed</button>
 </div>
 
 <!-- Timer -->
-<div id="timer" style="display:none">40</div>
+<div id="timer" style="display:none;">40</div>
 
-<p id="instructions" style="display:none"></p>
+<!-- Phase Title -->
+<h2 id="phaseTitle"></h2>
 
+<!-- Word List Row -->
 <div id="wordRow"></div>
+<button id="memProceedBtn" style="display:none;" onclick="startRecall()">Proceed to Recall</button>
 
-<br>
-
+<!-- Recall Area -->
 <div id="recallArea" style="display:none">
     <div id="lineRow"></div>
     <br>
@@ -61,9 +52,17 @@
     <br><br>
     <button id="submitBtn" onclick="submitRecall()">Submit</button>
     <p id="result"></p>
-    <button id="proceedBtn" style="display:none" onclick="nextTrial()">Proceed</button>
 </div>
 
+<!-- Results Screen -->
+<div id="resultsScreen" style="display:none;">
+    <h2>Trial Results</h2>
+    <p id="scoreText"></p>
+    <p id="timeText"></p>
+    <button id="proceedBtn" onclick="nextTrial()">Proceed to Next Trial</button>
+</div>
+
+<!-- Summary Screen -->
 <div id="summaryScreen" style="display:none">
     <h2>Experiment Complete</h2>
     <p>Thank you for participating! Your responses have been recorded.</p>
