@@ -33,16 +33,21 @@
 document.getElementById("infoForm").addEventListener("submit", function(e){
     e.preventDefault();
 
+    // Randomly assign group A or B
+    const group = Math.random() < 0.5 ? "A" : "B";
+
     const participant = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         school: document.getElementById("school").value,
-        major: document.getElementById("major").value
+        major: document.getElementById("major").value,
+        group: group
     };
 
     localStorage.setItem("participantInfo", JSON.stringify(participant));
 
-    window.location.href = "test.html";
+    // Redirect to the correct test
+    window.location.href = group === "A" ? "testa.html" : "testb.html";
 });
 </script>
 

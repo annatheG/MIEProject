@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Memory Experiment</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- Instructions Page -->
+<div id="instructionsPage">
+    <h2>Welcome to the Memory Experiment</h2>
+    <p>Hi everyone! Thank you for participating in our study about the effects of short-term memory recall. This task will take approximately 8-10 minutes to complete. Please read the following instructions carefully before starting.</p>
+
+    <h3>Overview</h3>
+    <p>In this study, you will be asked to memorize a list of words and then recall them from memory.</p>
+
+    <h3>General Guidelines</h3>
+    <ul>
+        <li>Complete this task in a quiet environment without distractions.</li>
+        <li>Complete this task individually.</li>
+        <li>Do not write down, take pictures, or use external aids.</li>
+        <li>Use a computer or laptop.</li>
+    </ul>
+
+    <h3>Trial Procedure</h3>
+    <h4>Memorization Phase</h4>
+    <p>Once you click "Proceed", a list of 15 randomly generated words will appear on the screen. You will have 40 seconds to study and memorize the list. After 40 seconds, the list will automatically disappear, and you will be taken to the recall phase. You may also click "Proceed to Recall" to move on earlier.</p>
+
+    <h4>Recall Phase</h4>
+    <p>Type as many words as you can remember. Submit words by pressing "Enter". Correct entries appear in their original positions. Incorrect words will not appear. Once all words are correctly recalled, your answers will be submitted automatically.</p>
+
+    <button id="startBtn" onclick="startExperiment()">Proceed</button>
+</div>
+
+<!-- Timer -->
+<div id="timer" style="display:none;">40</div>
+
+<!-- Phase Title -->
+<h2 id="phaseTitle"></h2>
+
+<!-- Word List Row -->
+<div id="wordRow"></div>
+<button id="memProceedBtn" style="display:none;" onclick="startRecall()">Proceed to Recall</button>
+
+<!-- Recall Area -->
+<div id="recallArea" style="display:none">
+    <div id="lineRow"></div>
+    <br>
+    <input id="guessBox" type="text" placeholder="Type word here">
+    <button onclick="enterGuess()">Enter</button>
+    <br><br>
+    <button id="submitBtn" onclick="submitRecall()">Submit</button>
+    <p id="result"></p>
+</div>
+
+<!-- Results Screen -->
+<div id="resultsScreen" style="display:none;">
+    <h2>Trial Results</h2>
+    <p id="scoreText"></p>
+    <p id="timeText"></p>
+    <button id="proceedBtn" onclick="nextTrial()">Proceed to Next Trial</button>
+</div>
+
+<!-- Summary Screen -->
+<div id="summaryScreen" style="display:none">
+    <h2>Experiment Complete</h2>
+    <p>Thank you for participating! Your responses have been recorded.</p>
+    <table border="1" style="margin:auto">
+        <thead>
+            <tr><th>Trial</th><th>Accuracy</th><th>Time (s)</th></tr>
+        </thead>
+        <tbody id="summaryTable"></tbody>
+    </table>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
