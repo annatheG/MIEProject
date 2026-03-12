@@ -39,17 +39,24 @@ function nextTrial(){
         finishTest();
     }
 }
-
 function finishTest(){
+
+    const participant = JSON.parse(localStorage.getItem("participantInfo"));
+
+    const submission = {
+        participant: participant,
+        responses: responses
+    };
 
     console.log("Final submission:", submission);
 
-    fetch("https://formspree.io/f/YOUR_ID", {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json"
-    },
-    body: JSON.stringify(submission)
+    fetch("https://formspree.io/f/mgonyvgr", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(submission)
     });
 
     trialText.innerText = "Thank you for participating!";
