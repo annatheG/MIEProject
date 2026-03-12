@@ -31,20 +31,23 @@ function nextTrial(){
 
     currentTrial++;
 
-    if(currentTrial < trials.length){
-        trialText.innerText = trials[currentTrial];
+    if(currentTrial >= trials.length){
+        finishTest();
+        return;
     }
 
-    else{
-        finishTest();
-    }
+    trialText.innerText = trials[currentTrial];
 }
+
 function finishTest(){
 
     const participant = JSON.parse(localStorage.getItem("participantInfo"));
 
     const submission = {
-        participant: participant,
+        name: participant.name,
+        email: participant.email,
+        school: participant.school,
+        major: participant.major,
         responses: responses
     };
 
@@ -60,4 +63,7 @@ function finishTest(){
     });
 
     trialText.innerText = "Thank you for participating!";
+    
+    document.getElementById("submitBtn").style.display = "none";
+    document.getElementById("responseBox").style.display = "none";
 }
