@@ -43,9 +43,10 @@ function nextTrial(){
     trialText.innerText = trials[currentTrial];
 }
 
-function finishTest(){
-
-    const participant = JSON.parse(localStorage.getItem("participantInfo"));
+function finishTest() {
+    // Safely handle missing participant info
+    const raw = localStorage.getItem("participantInfo");
+    const participant = raw ? JSON.parse(raw) : { name: "Unknown", email: "", school: "", major: "" };
 
     const submission = {
         name: participant.name,
@@ -66,9 +67,7 @@ function finishTest(){
         body: JSON.stringify(submission)
     });
 
-    trialText.innerText = "Thank you for participating! You're response has been recorded :)";
-    
-      // hide all controls
+    trialText.innerText = "Thank you for participating! Your response has been recorded :)";
     document.getElementById("submitBtn").style.display = "none";
     document.getElementById("responseBox").style.display = "none";
     document.getElementById("startBtn").style.display = "none";
