@@ -1,24 +1,98 @@
-body{
+/* =====================
+   SHARED STYLES
+   ===================== */
+body {
     font-family: Arial;
     text-align: center;
-    margin-top: 100px;
+    margin: 20px;
 }
 
-form{
+/* Index page form */
+form {
     display: inline-block;
+    text-align: left;
 }
 
-input{
+label {
     display: block;
-    margin: 10px auto;
-    padding: 8px;
+    margin-top: 10px;
+    font-weight: bold;
 }
 
-button{
+input {
+    display: block;
+    margin: 6px auto 0 auto;
+    padding: 8px;
+    width: 260px;
+}
+
+button {
     padding: 10px 20px;
     margin: 10px;
+    cursor: pointer;
 }
 
-#responseBox, #submitBtn {
-    display: none;
+/* =====================
+   TEST PAGE STYLES
+   ===================== */
+#timer {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    font-size: 22px;
+}
+
+#wordRow {
+    margin-top: 40px;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+#wordRow span {
+    margin-right: 20px;
+}
+
+#lineRow {
+    margin-top: 40px;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.line {
+    display: inline-block;
+    border-bottom: 2px solid black;
+    margin: 4px;
+    text-align: center;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: top;
+    width: auto;
+    min-width: 0;
+}
+
+.shake {
+    animation: shake 0.2s;
+}
+
+@keyframes shake {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-5px); }
+    50%  { transform: translateX(5px); }
+    75%  { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+#proceedBtn, #startBtn {
+    margin-top: 10px;
+}
+
+#submitBtn {
+    margin-top: 10px;
+}
+
+#instructionsPage {
+    text-align: left;
+    max-width: 800px;
+    margin: auto;
 }

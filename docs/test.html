@@ -1,24 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Memory Test</title>
+<title>Memory Experiment</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Memory Test</h1>
+<!-- Instructions Page -->
+<div id="instructionsPage">
+    <h2>Welcome to the Memory Experiment</h2>
+    <p>Hi everyone! Thank you for participating in our study about the effects of short-term memory recall. This task will take approximately 8-10 minutes to complete. Please read the following instructions carefully before starting.</p>
 
-<div id="trialContainer">
-    <p id="trialText">Press Start to begin.</p>
+    <h3>Overview</h3>
+    <p>In this study, you will be asked to memorize a list of words and then recall them from memory.</p>
+    <p>This experiment consists of three trials, each containing three phases:
+    <ul>
+        <li>Memorization phase</li>
+        <li>Recall phase</li>
+        <li>Review phase</li>
+    </ul>
+    Your performance is based on how quickly you can recall as many words as possible and the number of words you recall correctly.
+    </p>
+
+    <h3>General Guidelines</h3>
+    <ul>
+        <li>Complete this task in a quiet environment without distractions.</li>
+        <li>Complete this task individually.</li>
+        <li>Do not write down, take pictures, or use external aids.</li>
+        <li>Use a computer or laptop.</li>
+    </ul>
+
+    <h3>Trial Procedure</h3>
+    <h4>Memorization Phase</h4>
+    <p>Once you click "Proceed", a list of 15 randomly generated words will appear on the screen. You will have 40 seconds to study and memorize the list. After 40 seconds, the list will automatically disappear, and you will be taken to the recall phase.</p>
+
+    <h4>Recall Phase</h4>
+    <p>Type as many words as you can remember. Submit words by pressing "Enter". A timer will start at the beginning of the recall phase. Correct entries appear in their original positions. Incorrect words will not appear.</p>
+
+    <h4>Review Phase</h4>
+    <p>After submitting your responses, the original word list will reappear for review. Review time is 2.5 seconds multiplied by the number of correct words. After the review phase, the next trial will begin automatically (3 trials total).</p>
+
+    <button id="startBtn" onclick="startExperiment()">Proceed</button>
 </div>
 
-<button id="startBtn">Start</button>
-<input type="text" id="responseBox" placeholder="Type your answer">
-<button id="submitBtn">Submit</button>
+<!-- Timer -->
+<div id="timer" style="display:none">40</div>
+
+<p id="instructions" style="display:none"></p>
+
+<div id="wordRow"></div>
+
+<br>
+
+<div id="recallArea" style="display:none">
+    <div id="lineRow"></div>
+    <br>
+    <input id="guessBox" type="text" placeholder="Type word here">
+    <button onclick="enterGuess()">Enter</button>
+    <br><br>
+    <button id="submitBtn" onclick="submitRecall()">Submit</button>
+    <p id="result"></p>
+    <button id="proceedBtn" style="display:none" onclick="nextTrial()">Proceed</button>
+</div>
+
+<div id="summaryScreen" style="display:none">
+    <h2>Experiment Complete</h2>
+    <p>Thank you for participating! Your responses have been recorded.</p>
+    <table border="1" style="margin:auto">
+        <thead>
+            <tr><th>Trial</th><th>Accuracy</th><th>Time (s)</th></tr>
+        </thead>
+        <tbody id="summaryTable"></tbody>
+    </table>
+</div>
 
 <script src="script.js"></script>
 
 </body>
 </html>
-
