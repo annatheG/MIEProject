@@ -251,31 +251,51 @@ function nextTrial(){
 // =====================
 function submitAndShowSummary(){
 
-    const raw = localStorage.getItem("participantInfo");
-    const participant = raw
-        ? JSON.parse(raw)
-        : { name: "Unknown", email: "", school: "", major: "" };
+    let participant = { name: "Unknown", email: "", school: "", major: "", group: "Unknown" };
+
+    try {
+        const raw = localStorage.getItem("participantInfo");
+        if(raw){
+            participant = JSON.parse(raw);
+        }
+    } catch(err) {
+        console.error("localStorage error:", err);
+    }
 
     const submission = {
         name: participant.name,
         email: participant.email,
         school: participant.school,
         major: participant.major,
+        group: participant.group,
         trials: trialResponses
     };
 
     console.log("Final submission:", submission);
 
-    fetch("https://formspree.io/f/mgonyvgr", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify(submission)
-    }).catch(err => console.error("Submission error:", err));
-
+    // Show summary immediately so network issues never block the UI
     showSummary();
+
+    try {
+        fetch("https://formspree.io/f/mgonyvgr", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(submission)
+        })
+        .then(res => {
+            if(res.ok){
+                console.log("Submission successful");
+            } else {
+                console.error("Submission failed with status:", res.status);
+            }
+        })
+        .catch(err => console.error("Submission error:", err));
+    } catch(err) {
+        console.error("Fetch error:", err);
+    }
 }
 
 // =====================
