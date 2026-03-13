@@ -3,84 +3,174 @@
 <head>
 <title>Memory Experiment</title>
 <link rel="stylesheet" href="style.css">
+
+<style>
+#timer{
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  font-size: 22px;
+  display: none;
+}
+
+#instructionsPage{
+  text-align: left;
+  max-width: 800px;
+  margin: auto;
+}
+
+#summary{
+  text-align: left;
+  max-width: 800px;
+  margin: auto;
+}
+
+#lineRow{
+  margin-top: 20px;
+}
+
+.line{
+  display: inline-block;
+  border-bottom: 2px solid black;
+  margin: 4px;
+  min-width: 60px;
+  height: 24px;
+  line-height: 24px;
+}
+
+#recallBox{
+  width: 80%;
+  height: 80px;
+  font-size: 16px;
+}
+
+#wrongWords{
+  color: red;
+  margin-top: 10px;
+}
+
+button{
+  margin-top: 10px;
+}
+
+#wordRow {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#wordRow span {
+  margin-right: 20px;
+  font-weight: normal;
+  font-size: 18px;
+}
+</style>
 </head>
 
 <body>
 
-<!-- Instructions Page -->
 <div id="instructionsPage">
-    <h2>Welcome to the Memory Experiment</h2>
-    <p>Hi everyone! Thank you for participating in our study about the effects of short-term memory recall. This task will take approximately 5-8 minutes to complete. <b>Please read the following instructions carefully before starting.</b></p>
 
-    <h3>Overview</h3>
-    <p>In this study, you will be asked to memorize a list of words and then recall them from memory. Your performance is based on the <b>number of words you recall correctly</b> and <b>how quickly you recall them</b>. These two metrics are <b>weighted equally</b>.</p>
+<h2>Welcome to the Memory Experiment</h2>
 
-    <h3>General Guidelines</h3>
-    <ul>
-        <li>Please complete this task in a quiet environment without distractions.</li>
-        <li>This task should be completed individually.</li>
-        <li>Do not write down, take pictures of the screen, or use any external aids.</li>
-        <li>Please complete this task on a computer or laptop.</li>
-    </ul>
+<p>
+Hi everyone! Thank you for participating in our study about the effects of short-term memory recall. This task will take approximately 5-8 minutes to complete. <b>Please read the following instructions carefully before starting.</b>
+</p>
 
-    <h3>Trial Procedure</h3>
-    <h4>Memorization Phase</h4>
-    <p>Once you click "Start", a list of 15 words will appear on the screen. You will have 25 seconds to memorize the list. If you feel ready before the time is up, you may click "Proceed to Recall Phase". This will not change your score.</p>
+<h3>Overview</h3>
+<p>
+In this study, you will be asked to memorize a list of words and then recall them from memory. Your performance is based on the <b>number of words you recall correctly</b> and <b>how quickly you recall them</b>. These two metrics are <b>weighted equally</b>.
+</p>
 
-    <h4>Recall Phase</h4>
-    <p>After the list disappears, you will begin recalling the words. Type as many words as you can remember into the designated box. Please separate each word using the "enter" or "space" key on your keyboard. Do not use commas or other characters. The timer will begin at the start of this phase and stop when you click "Submit".</p>
+<h3>General Guidelines</h3>
+<ul>
+<li>Please complete this task in a quiet environment without distractions.</li>
+<li>This task should be completed individually.</li>
+<li>Do not write down, take pictures of the screen, or use any external aids.</li>
+<li>Please complete this task on a computer or laptop.</li>
+</ul>
 
-    <h4>Review Phase</h4>
-    <p>After submitting your responses, the words you recalled correctly will appear in their original positions in the list. Words that were not part of the list will be listed in red. You will have 10 seconds to review your results before proceeding to the next trial.</p>
+<h3>Trial Procedure</h3>
 
-    <button onclick="startTrial()">Start</button>
+<h4>Memorization Phase</h4>
+<p>
+Once you click "Start", a list of 15 words will appear on the screen. You will have 25 seconds to memorize the list. If you feel ready before the time is up, you may click "Proceed to recall phase". This will not change your score.
+</p>
+
+<h4>Recall Phase</h4>
+<p>
+After the list disappears, you will begin recalling the words. Type as many words as you can remember into the designated box. Please separate each word using the "enter" or "space" key on your keyboard. Do not use commas or other characters. The timer will begin at the start of this phase and stop when you click "Submit".
+</p>
+
+<h4>Review Phase</h4>
+<p>
+After submitting your responses, the words you recalled correctly will appear in their original positions in the list. Words that were not part of the list will be listed in red. You will have 10 seconds to review your results before proceeding to the next trial.
+</p>
+
+<button onclick="startTrial()">Start</button>
+
 </div>
 
-<!-- Timer -->
-<div id="timer" style="display:none;">25</div>
+<div id="timer">25</div>
 
-<!-- Phase Title -->
 <h2 id="phaseTitle"></h2>
 
-<!-- Word Row -->
 <div id="wordRow"></div>
-<button id="skipBtn" style="display:none" onclick="startRecall()">Proceed to Recall Phase</button>
 
-<!-- Recall Area -->
+<button id="skipBtn" style="display:none" onclick="startRecall()">
+Proceed to Recall Phase
+</button>
+
 <div id="recallArea" style="display:none">
-    <textarea id="recallBox"></textarea>
-    <p>Word count: <span id="wordCount">0</span></p>
-    <button onclick="submitRecall()">Submit</button>
+
+<textarea id="recallBox"></textarea>
+
+<p>Word count: <span id="wordCount">0</span></p>
+
+<button onclick="submitRecall()">Submit</button>
+
 </div>
 
-<!-- Review Area -->
 <div id="reviewArea" style="display:none">
-    <div id="lineRow"></div>
-    <div id="wrongWords"></div>
-    <p>Review phase ends in <span id="reviewTimer">10</span></p>
-    <button onclick="skipReview()">Proceed</button>
+
+<div id="lineRow"></div>
+
+<div id="wrongWords"></div>
+
+<p>Review phase ends in <span id="reviewTimer">10</span></p>
+
+<button id="reviewProceedBtn" onclick="skipReview()">
+Proceed
+</button>
+
 </div>
 
-<!-- Trial Result -->
 <div id="trialResult" style="display:none">
-    <h2>Trial Results</h2>
-    <p id="trialScore"></p>
-    <p id="trialTime"></p>
-    <button onclick="nextTrial()">Proceed to Next Trial</button>
+
+<h2>Trial Results</h2>
+
+<p id="trialScore"></p>
+<p id="trialTime"></p>
+
+<button onclick="nextTrial()">Proceed to Next Trial</button>
+
 </div>
 
-<!-- Summary Screen -->
 <div id="summary" style="display:none">
-    <h2>Experiment Complete</h2>
-    <p>Thank you for participating! Your responses have been recorded.</p>
-    <table border="1" style="margin:auto;">
-        <tr>
-            <th>Trial</th>
-            <th>Accuracy</th>
-            <th>Time (s)</th>
-        </tr>
-        <tbody id="summaryTable"></tbody>
-    </table>
+
+<h2>Experiment Summary</h2>
+
+<table border="1" style="margin:auto;">
+
+<tr>
+<th>Trial</th>
+<th>Accuracy</th>
+<th>Time (s)</th>
+</tr>
+
+<tbody id="summaryTable"></tbody>
+
+</table>
+
 </div>
 
 <script src="scriptb.js"></script>
