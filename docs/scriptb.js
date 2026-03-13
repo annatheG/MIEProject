@@ -19,10 +19,10 @@ function startTrial(){
   document.getElementById("instructionsPage").style.display="none"
   document.getElementById("timer").style.display="block"
   document.getElementById("skipBtn").style.display="inline-block"
-  document.getElementById("trialResult").style.display="none"
+  document.getElementById("resultsScreen").style.display="none"
   document.getElementById("reviewArea").style.display="none"
   document.getElementById("recallArea").style.display="none"
-  document.getElementById("summary").style.display="none"
+  document.getElementById("summaryScreen").style.display="none"
   document.getElementById("wordRow").innerHTML=""
 
   document.getElementById("phaseTitle").innerText="Memorize the words"
@@ -121,8 +121,8 @@ function showReview(correct,wrong){
 
   document.getElementById("recallArea").style.display="none"
   document.getElementById("reviewArea").style.display="block"
-  document.getElementById("timer").style.display = "none"
-  document.getElementById("phaseTitle").innerText = "Review Phase"
+  document.getElementById("timer").style.display="none"
+  document.getElementById("phaseTitle").innerText="Review Phase"
 
   let row = document.getElementById("lineRow")
   row.innerHTML = ""
@@ -163,26 +163,25 @@ function skipReview(){
 function showTrialResult(){
 
   document.getElementById("reviewArea").style.display="none"
-  document.getElementById("trialResult").style.display="block"
+  document.getElementById("resultsScreen").style.display="block"
+  document.getElementById("timer").style.display="none"
 
   let s = scores[scores.length-1]
   let t = times[times.length-1]
 
-  document.getElementById("trialScore").innerText = "Score: "+s+"/15"
-  document.getElementById("trialTime").innerText = "Time: "+t+" s"
-
-  document.getElementById("timer").style.display = "none"
+  document.getElementById("scoreText").innerText = "Score: "+s+"/15"
+  document.getElementById("timeText").innerText = "Time: "+t+" s"
 
   if(trial >= 3){
-    document.querySelector("#trialResult button").innerText = "Finish Test"
+    document.getElementById("proceedBtn").innerText = "Finish Test"
   } else {
-    document.querySelector("#trialResult button").innerText = "Proceed to Next Trial"
+    document.getElementById("proceedBtn").innerText = "Proceed to Next Trial"
   }
 }
 
 function nextTrial(){
 
-  document.getElementById("trialResult").style.display="none"
+  document.getElementById("resultsScreen").style.display="none"
 
   trial++
 
@@ -249,7 +248,7 @@ function submitAndShowSummary(){
 
 function showSummary(){
 
-  document.getElementById("summary").style.display="block"
+  document.getElementById("summaryScreen").style.display="block"
 
   let tb = document.getElementById("summaryTable")
 
