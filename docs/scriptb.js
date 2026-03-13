@@ -1,10 +1,10 @@
 // =====================
-// WORD LIST
+// WORD LIST - GROUP B
 // =====================
 const words = [
-    "apple","chair","river","glass","stone",
-    "paper","light","train","cloud","bread",
-    "green","music","plant","table","phone"
+    "tiger","ocean","flame","clock","brush",
+    "storm","eagle","bread","silver","canal",
+    "frost","lemon","pearl","cabin","sword"
 ];
 
 let placed = new Array(words.length).fill(false);
@@ -46,7 +46,6 @@ function startExperiment(){
     document.getElementById("result").innerText = "";
     document.getElementById("guessBox").value = "";
 
-    // Re-enable submit in case it was disabled from previous trial
     document.getElementById("submitBtn").disabled = false;
     document.getElementById("submitBtn").style.opacity = "1";
 
@@ -176,7 +175,6 @@ function enterGuess(){
     box.value = "";
     box.focus();
 
-    // Auto-submit if all words placed
     if(placed.every(p => p)){
         submitRecall();
     }
@@ -199,7 +197,6 @@ if(guessBox){
 // =====================
 function submitRecall(){
 
-    // Prevent double submissions
     document.getElementById("submitBtn").disabled = true;
     document.getElementById("submitBtn").style.opacity = "0.5";
 
@@ -217,7 +214,6 @@ function submitRecall(){
         guesses: currentGuesses
     });
 
-    // Hide recall area, show results screen
     document.getElementById("recallArea").style.display = "none";
     document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Results";
     document.getElementById("resultsScreen").style.display = "block";
@@ -225,7 +221,6 @@ function submitRecall(){
     document.getElementById("scoreText").innerText = "Score: " + score + "/15";
     document.getElementById("timeText").innerText = "Time: " + time + " s";
 
-    // Change button label on final trial
     if(trial >= 3){
         document.getElementById("proceedBtn").innerText = "See Summary";
     } else {
@@ -273,7 +268,6 @@ function submitAndShowSummary(){
 
     console.log("Final submission:", submission);
 
-    // Show summary immediately so network issues never block the UI
     showSummary();
 
     try {
