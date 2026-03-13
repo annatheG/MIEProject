@@ -175,8 +175,11 @@ function showTrialResult(){
 
   if(trial >= 3){
     document.querySelector("#trialResult button").innerText = "Finish Test"
+  } else {
+    document.querySelector("#trialResult button").innerText = "Proceed to Next Trial"
   }
 }
+
 function nextTrial(){
 
   document.getElementById("trialResult").style.display="none"
