@@ -1,7 +1,5 @@
 let words=[
-  "apple","chair","river","glass","stone",
-  "paper","light","train","cloud","bread",
-  "green","music","plant","table","phone"
+  "ether", "clock", "snake", "index", "globe", "cloud", "frame", "image", "brush", "knife", "towel", "canoe", "flute", "shelf"
 ]
 
 let trial=1
@@ -29,7 +27,7 @@ function startTrial(){
 
   showWords()
 
-  let t=25
+  let t=30
   document.getElementById("timer").innerText=t
 
   clearInterval(countdown)

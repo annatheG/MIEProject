@@ -2,9 +2,7 @@
 // WORD LIST
 // =====================
 const words = [
-    "apple","chair","river","glass","stone",
-    "paper","light","train","cloud","bread",
-    "green","music","plant","table","phone"
+    "ether", "clock", "snake", "index", "globe", "cloud", "frame", "image", "brush", "knife", "towel", "canoe", "flute", "shelf"
 ];
 
 let placed = new Array(words.length).fill(false);
@@ -24,7 +22,7 @@ let currentGuesses = [];
 // =====================
 let countdownTimer;
 let countupTimer;
-let timeLeft = 25;
+let timeLeft = 30;
 let recallTime = 0;
 let startTime;
 
@@ -54,7 +52,7 @@ function startExperiment(){
 
     showWords();
 
-    timeLeft = 25;
+    timeLeft = 30;
     document.getElementById("timer").innerText = timeLeft;
 
     clearInterval(countdownTimer);
