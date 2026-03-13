@@ -7,224 +7,207 @@ const words = [
     "frost","lemon","pearl","cabin","sword"
 ];
 
-let placed = new Array(words.length).fill(false);
-
 // =====================
 // TRIAL DATA
 // =====================
 let trial = 1;
-let trialTimes = [];
-let trialScores = [];
-let trialResponses = [];
-
-let currentGuesses = [];
+let scores = [];
+let times = [];
 
 // =====================
 // TIMERS
 // =====================
-let countdownTimer;
-let countupTimer;
-let timeLeft = 40;
-let recallTime = 0;
+let countdown;
+let countup;
+let reviewCount;
+
 let startTime;
 
 // =====================
-// START EXPERIMENT / TRIAL
+// MEMORIZATION PHASE
 // =====================
-function startExperiment(){
+function startTrial(){
 
     document.getElementById("instructionsPage").style.display = "none";
     document.getElementById("timer").style.display = "block";
-    document.getElementById("memProceedBtn").style.display = "inline-block";
-
-    placed.fill(false);
-    currentGuesses = [];
-
+    document.getElementById("skipBtn").style.display = "inline-block";
+    document.getElementById("trialResult").style.display = "none";
+    document.getElementById("reviewArea").style.display = "none";
     document.getElementById("recallArea").style.display = "none";
-    document.getElementById("resultsScreen").style.display = "none";
-    document.getElementById("summaryScreen").style.display = "none";
-    document.getElementById("result").innerText = "";
-    document.getElementById("guessBox").value = "";
-
-    document.getElementById("submitBtn").disabled = false;
-    document.getElementById("submitBtn").style.opacity = "1";
+    document.getElementById("summary").style.display = "none";
 
     document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Memorize the words";
 
     showWords();
 
-    timeLeft = 40;
-    document.getElementById("timer").innerText = timeLeft;
+    let t = 25;
+    document.getElementById("timer").innerText = t;
 
-    clearInterval(countdownTimer);
-    clearInterval(countupTimer);
+    clearInterval(countdown);
+    clearInterval(countup);
+    clearInterval(reviewCount);
 
-    countdownTimer = setInterval(countdown, 1000);
+    countdown = setInterval(() => {
+        t--;
+        document.getElementById("timer").innerText = t;
+        if(t <= 0){
+            clearInterval(countdown);
+            startRecall();
+        }
+    }, 1000);
 }
 
 // =====================
-// SHOW WORDS (Memorization)
+// SHOW WORDS
 // =====================
 function showWords(){
     let row = document.getElementById("wordRow");
     row.innerHTML = "";
     for(let w of words){
-        let span = document.createElement("span");
-        span.innerText = w;
-        row.appendChild(span);
+        let s = document.createElement("span");
+        s.innerText = w;
+        row.appendChild(s);
     }
 }
 
 // =====================
-// COUNTDOWN TIMER
-// =====================
-function countdown(){
-    timeLeft--;
-    document.getElementById("timer").innerText = timeLeft;
-    if(timeLeft <= 0){
-        clearInterval(countdownTimer);
-        startRecall();
-    }
-}
-
-// =====================
-// START RECALL
+// RECALL PHASE
 // =====================
 function startRecall(){
 
-    clearInterval(countdownTimer);
-    document.getElementById("memProceedBtn").style.display = "none";
+    clearInterval(countdown);
+
+    document.getElementById("skipBtn").style.display = "none";
     document.getElementById("wordRow").innerHTML = "";
+    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Recall Phase";
     document.getElementById("recallArea").style.display = "block";
-    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Recall the words";
-
-    makeLines();
-
-    recallTime = 0;
-    document.getElementById("timer").innerText = recallTime;
+    document.getElementById("recallBox").value = "";
+    document.getElementById("wordCount").innerText = 0;
 
     startTime = Date.now();
+    document.getElementById("timer").style.display = "block";
 
-    clearInterval(countupTimer);
-    countupTimer = setInterval(countUp, 1000);
-
-    document.getElementById("guessBox").focus();
+    clearInterval(countup);
+    countup = setInterval(() => {
+        let t = (Date.now() - startTime) / 1000;
+        document.getElementById("timer").innerText = t.toFixed(2);
+    }, 50);
 }
 
 // =====================
-// COUNTUP TIMER
+// WORD COUNT
 // =====================
-function countUp(){
-    recallTime = Math.floor((Date.now() - startTime) / 1000);
-    document.getElementById("timer").innerText = recallTime;
-}
-
-// =====================
-// MAKE LINES (Recall)
-// =====================
-function makeLines(){
-    let row = document.getElementById("lineRow");
-    row.innerHTML = "";
-    let tempSpan = document.createElement("span");
-    tempSpan.style.visibility = "hidden";
-    tempSpan.style.position = "absolute";
-    document.body.appendChild(tempSpan);
-    for(let i = 0; i < words.length; i++){
-        let w = words[i];
-        let span = document.createElement("span");
-        span.className = "line";
-        span.id = "line" + i;
-        tempSpan.innerText = w;
-        span.style.width = tempSpan.offsetWidth + "px";
-        span.innerHTML = "&nbsp;";
-        row.appendChild(span);
-    }
-    document.body.removeChild(tempSpan);
-}
-
-// =====================
-// ENTER GUESS
-// =====================
-function enterGuess(){
-    let box = document.getElementById("guessBox");
-    let guess = box.value.trim().toLowerCase();
-    if(!guess) return;
-
-    let matchedIndex = -1;
-
-    for(let i = 0; i < words.length; i++){
-        if(guess === words[i]){
-            matchedIndex = i;
-            placed[i] = true;
-            break;
+const recallBox = document.getElementById("recallBox");
+if(recallBox){
+    recallBox.addEventListener("input", () => {
+        let txt = document.getElementById("recallBox").value.trim();
+        if(txt === ""){
+            document.getElementById("wordCount").innerText = 0;
+            return;
         }
-    }
-
-    if(matchedIndex >= 0){
-        let line = document.getElementById("line" + matchedIndex);
-        line.innerText = words[matchedIndex];
-        line.style.color = "green";
-        setTimeout(() => { line.style.color = "black"; }, 500);
-        currentGuesses.push({ word: guess, correct: true });
-    } else {
-        box.classList.add("shake");
-        setTimeout(() => { box.classList.remove("shake"); }, 200);
-        currentGuesses.push({ word: guess, correct: false });
-    }
-
-    box.value = "";
-    box.focus();
-
-    if(placed.every(p => p)){
-        submitRecall();
-    }
-}
-
-// =====================
-// ENTER KEY
-// =====================
-const guessBox = document.getElementById("guessBox");
-if(guessBox){
-    guessBox.addEventListener("keypress", function(e){
-        if(e.key === "Enter"){
-            enterGuess();
-        }
+        let arr = txt.split(/\s+/);
+        document.getElementById("wordCount").innerText = arr.length;
     });
 }
 
 // =====================
-// SUBMIT / END TRIAL
+// SUBMIT RECALL
 // =====================
 function submitRecall(){
 
-    document.getElementById("submitBtn").disabled = true;
-    document.getElementById("submitBtn").style.opacity = "0.5";
+    clearInterval(countup);
 
-    clearInterval(countupTimer);
+    let time = ((Date.now() - startTime) / 1000).toFixed(2);
 
-    let time = Math.floor((Date.now() - startTime) / 1000);
-    let score = placed.filter(p => p).length;
+    let txt = document.getElementById("recallBox").value.trim().toLowerCase();
+    let arr = txt.split(/\s+/);
 
-    trialTimes.push(time);
-    trialScores.push(score);
-    trialResponses.push({
-        trial: trial,
-        score: score,
-        time: time,
-        guesses: currentGuesses
-    });
+    let correct = [];
+    let wrong = [];
+
+    for(let w of arr){
+        if(words.includes(w) && !correct.includes(w)){
+            correct.push(w);
+        } else {
+            wrong.push(w);
+        }
+    }
+
+    scores.push(correct.length);
+    times.push(time);
+
+    showReview(correct, wrong);
+}
+
+// =====================
+// REVIEW PHASE
+// =====================
+function showReview(correct, wrong){
 
     document.getElementById("recallArea").style.display = "none";
-    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Results";
-    document.getElementById("resultsScreen").style.display = "block";
+    document.getElementById("reviewArea").style.display = "block";
+    document.getElementById("timer").style.display = "none";
+    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Review Phase";
 
-    document.getElementById("scoreText").innerText = "Score: " + score + "/15";
-    document.getElementById("timeText").innerText = "Time: " + time + " s";
+    let row = document.getElementById("lineRow");
+    row.innerHTML = "";
+
+    for(let w of words){
+        let s = document.createElement("span");
+        s.className = "line";
+        if(correct.includes(w)){
+            s.innerText = w;
+        } else {
+            s.innerHTML = "&nbsp;";
+        }
+        row.appendChild(s);
+    }
+
+    document.getElementById("wrongWords").innerText =
+        wrong.length > 0 ? "Extra words: " + wrong.join(" ") : "";
+
+    let t = 10;
+    document.getElementById("reviewTimer").innerText = t;
+
+    clearInterval(reviewCount);
+    reviewCount = setInterval(() => {
+        t--;
+        document.getElementById("reviewTimer").innerText = t;
+        if(t <= 0){
+            clearInterval(reviewCount);
+            showTrialResult();
+        }
+    }, 1000);
+}
+
+// =====================
+// SKIP REVIEW
+// =====================
+function skipReview(){
+    clearInterval(reviewCount);
+    showTrialResult();
+}
+
+// =====================
+// TRIAL RESULT
+// =====================
+function showTrialResult(){
+
+    document.getElementById("reviewArea").style.display = "none";
+    document.getElementById("trialResult").style.display = "block";
+    document.getElementById("timer").style.display = "none";
+    document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Results";
+
+    let s = scores[scores.length - 1];
+    let t = times[times.length - 1];
+
+    document.getElementById("trialScore").innerText = "Score: " + s + "/15";
+    document.getElementById("trialTime").innerText = "Time: " + t + " s";
 
     if(trial >= 3){
-        document.getElementById("proceedBtn").innerText = "See Summary";
+        document.querySelector("#trialResult button").innerText = "See Summary";
     } else {
-        document.getElementById("proceedBtn").innerText = "Proceed to Next Trial";
+        document.querySelector("#trialResult button").innerText = "Proceed to Next Trial";
     }
 }
 
@@ -232,10 +215,10 @@ function submitRecall(){
 // NEXT TRIAL
 // =====================
 function nextTrial(){
-    document.getElementById("resultsScreen").style.display = "none";
+    document.getElementById("trialResult").style.display = "none";
     trial++;
     if(trial <= 3){
-        startExperiment();
+        startTrial();
     } else {
         submitAndShowSummary();
     }
@@ -246,7 +229,7 @@ function nextTrial(){
 // =====================
 function submitAndShowSummary(){
 
-    let participant = { name: "Unknown", email: "", school: "", major: "", group: "Unknown" };
+    let participant = { name: "Unknown", email: "", school: "", major: "", group: "B" };
 
     try {
         const raw = localStorage.getItem("participantInfo");
@@ -256,6 +239,12 @@ function submitAndShowSummary(){
     } catch(err) {
         console.error("localStorage error:", err);
     }
+
+    const trialResponses = scores.map((s, i) => ({
+        trial: i + 1,
+        score: s,
+        time: times[i]
+    }));
 
     const submission = {
         name: participant.name,
@@ -297,13 +286,11 @@ function submitAndShowSummary(){
 // =====================
 function showSummary(){
     document.getElementById("phaseTitle").innerText = "";
-    document.getElementById("timer").style.display = "none";
-    document.getElementById("summaryScreen").style.display = "block";
+    document.getElementById("summary").style.display = "block";
 
-    let tbody = document.getElementById("summaryTable");
-    tbody.innerHTML = "";
-    for(let i = 0; i < trialScores.length; i++){
-        let row = `<tr><td>${i+1}</td><td>${trialScores[i]}/15</td><td>${trialTimes[i]}</td></tr>`;
-        tbody.innerHTML += row;
+    let tb = document.getElementById("summaryTable");
+    tb.innerHTML = "";
+    for(let i = 0; i < scores.length; i++){
+        tb.innerHTML += `<tr><td>${i+1}</td><td>${scores[i]}/15</td><td>${times[i]}</td></tr>`;
     }
 }
