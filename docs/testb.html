@@ -144,33 +144,24 @@ Proceed
 
 </div>
 
-<div id="trialResult" style="display:none">
-
-<h2>Trial Results</h2>
-
-<p id="trialScore"></p>
-<p id="trialTime"></p>
-
-<button onclick="nextTrial()">Proceed to Next Trial</button>
-
+<!-- Results Screen -->
+<div id="resultsScreen" style="display:none;">
+    <h2>Trial Results</h2>
+    <p id="scoreText"></p>
+    <p id="timeText"></p>
+    <button id="proceedBtn" onclick="nextTrial()">Proceed to Next Trial</button>
 </div>
 
-<div id="summary" style="display:none">
-
-<h2>Experiment Summary</h2>
-
-<table border="1" style="margin:auto;">
-
-<tr>
-<th>Trial</th>
-<th>Accuracy</th>
-<th>Time (s)</th>
-</tr>
-
-<tbody id="summaryTable"></tbody>
-
-</table>
-
+<!-- Summary Screen -->
+<div id="summaryScreen" style="display:none">
+    <h2>Experiment Complete</h2>
+    <p>Thank you for participating! Your responses have been recorded.</p>
+    <table border="1" style="margin:auto">
+        <thead>
+            <tr><th>Trial</th><th>Accuracy</th><th>Time (s)</th></tr>
+        </thead>
+        <tbody id="summaryTable"></tbody>
+    </table>
 </div>
 
 <script src="scriptb.js"></script>

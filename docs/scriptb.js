@@ -165,8 +165,11 @@ function showTrialResult(){
   document.getElementById("trialTime").innerText = "Time: "+t+" s"
 
   document.getElementById("timer").style.display = "none"
-}
 
+  if(trial >= 3){
+    document.querySelector("#trialResult button").innerText = "Finish Test"
+  }
+}
 function nextTrial(){
 
   document.getElementById("trialResult").style.display="none"
