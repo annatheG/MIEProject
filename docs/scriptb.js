@@ -19,6 +19,11 @@ function startTrial(){
   document.getElementById("instructionsPage").style.display="none"
   document.getElementById("timer").style.display="block"
   document.getElementById("skipBtn").style.display="inline-block"
+  document.getElementById("trialResult").style.display="none"
+  document.getElementById("reviewArea").style.display="none"
+  document.getElementById("recallArea").style.display="none"
+  document.getElementById("summary").style.display="none"
+  document.getElementById("wordRow").innerHTML=""
 
   document.getElementById("phaseTitle").innerText="Memorize the words"
 
@@ -28,6 +33,8 @@ function startTrial(){
   document.getElementById("timer").innerText=t
 
   clearInterval(countdown)
+  clearInterval(countup)
+  clearInterval(reviewCount)
 
   countdown=setInterval(()=>{
     t--
