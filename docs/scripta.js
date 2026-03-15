@@ -2,8 +2,12 @@
 // WORD LIST
 // =====================
 const words = [
-    "ether", "clock", "snake", "index", "globe", "cloud", "frame", "image", "brush", "knife", "towel", "canoe", "flute", "shelf"
-];
+    "clock","lucid","snake","plate","pinky",
+  "wreck","vegan","shelf","clown","kiosk",
+  "house","ratio","flute","binge","moose",
+  "scene","ether","query","globe","image",
+  "stoic","canoe","chief","ghost","towel",
+  "alien","frame","knife","brush","index"];
 
 let placed = new Array(words.length).fill(false);
 
@@ -220,7 +224,7 @@ function submitRecall(){
     document.getElementById("phaseTitle").innerText = "Trial " + trial + " — Results";
     document.getElementById("resultsScreen").style.display = "block";
 
-    document.getElementById("scoreText").innerText = "Score: " + score + "/15";
+    document.getElementById("scoreText").innerText = "Score: " + score + "/30";
     document.getElementById("timeText").innerText = "Time: " + time + " s";
 
     // Change button label on final trial
@@ -307,7 +311,7 @@ function showSummary(){
     let tbody = document.getElementById("summaryTable");
     tbody.innerHTML = "";
     for(let i = 0; i < trialScores.length; i++){
-        let row = `<tr><td>${i+1}</td><td>${trialScores[i]}/15</td><td>${trialTimes[i]}</td></tr>`;
+        let row = `<tr><td>${i+1}</td><td>${trialScores[i]}/30</td><td>${trialTimes[i]}</td></tr>`;
         tbody.innerHTML += row;
     }
 }

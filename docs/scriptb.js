@@ -1,6 +1,10 @@
 let words=[
-  "ether", "clock", "snake", "index", "globe", "cloud", "frame", "image", "brush", "knife", "towel", "canoe", "flute", "shelf"
-]
+  "clock","lucid","snake","plate","pinky",
+  "wreck","vegan","shelf","clown","kiosk",
+  "house","ratio","flute","binge","moose",
+  "scene","ether","query","globe","image",
+  "stoic","canoe","chief","ghost","towel",
+  "alien","frame","knife","brush","index"]
 
 let trial=1
 let scores=[]
@@ -167,7 +171,7 @@ function showTrialResult(){
   let s = scores[scores.length-1]
   let t = times[times.length-1]
 
-  document.getElementById("scoreText").innerText = "Score: "+s+"/15"
+  document.getElementById("scoreText").innerText = "Score: "+s+"/30"
   document.getElementById("timeText").innerText = "Time: "+t+" s"
 
   if(trial >= 3){
@@ -254,7 +258,7 @@ function showSummary(){
     tb.innerHTML +=
     `<tr>
       <td>${i+1}</td>
-      <td>${scores[i]}/15</td>
+      <td>${scores[i]}/30</td>
       <td>${times[i]}</td>
     </tr>`
   }
