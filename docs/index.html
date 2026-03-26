@@ -34,8 +34,8 @@ document.getElementById("infoForm").addEventListener("submit", function(e){
     e.preventDefault();
 
     // Randomly assign group A or B
-    const group = "A";
-    // const group = Math.random() < 0.5 ? "A" : "B";
+    // const group = "A";
+    const group = Math.random() < 0.5 ? "A" : "B";
 
     const participant = {
         name: document.getElementById("name").value,
